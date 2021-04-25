@@ -162,7 +162,7 @@ class game2048:
     #end
 
 #endClass
-
+'''
 
 game = game2048()
 while game.status() == "continue":
@@ -176,3 +176,4 @@ while game.status() == "continue":
     elif res == 'a':
         game.left()
     print(game.points)
+    '''
