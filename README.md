@@ -1,6 +1,6 @@
 # 2048Game
 
-before to use the game 
+Before to use the game 
 
 be sure to have ptyton a PyQt5
 
