@@ -68,7 +68,7 @@ class game2048:
         
         for j in range(4):
             for i in range(3):
-                if self.mat[i][j] == self.mat[i+1][j] and i < 2:
+                if self.mat[i][j] == self.mat[i+1][j] and i < 3:
                     self.mat[i][j] = self.mat[i][j] +self.mat[i+1][j]
                     self.points = self.points +  self.mat[i][j] +self.mat[i+1][j]
                     self.mat[i+1][j] = 0
@@ -121,9 +121,9 @@ class game2048:
         subleft()
         for i in range(4):
             for j in range(3):
-                if self.mat[i][j] == self.mat[i][j+1] and j < 2:
+                if self.mat[i][j] == self.mat[i][j+1] and j < 3:
                     self.mat[i][j] = self.mat[i][j] +self.mat[i][j+1]
-                    self.points = self.points +   self.mat[i][j] +self.mat[i][j+1]
+                    self.points = self.points + self.mat[i][j] +self.mat[i][j+1]
                     self.mat[i][j+1] = 0
                     subleft()
                 #endif
