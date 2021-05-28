@@ -12,6 +12,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.buttonRight.clicked.connect(self.right)
         self.buttonLeft.clicked.connect(self.left)
         self.player1.clicked.connect(self.autoPlayer1)
+        self.player2.clicked.connect(self.autoPlayer2)
         self.game = game2048()
         self.setmat()
 
@@ -126,13 +127,10 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def left(self):
         self.game.left()
         self.setmat() 
-    def thread(self):
-        t = Thread(target = self.autoPlayer1)
-        t.start()
+    
     def autoPlayer1(self):
-        self.thread()
         while self.game.status() == "continue":
-            time.sleep(1)
+            time.sleep(0.5)
             m =  movimiento()
             if m == 0:
                 self.down()
@@ -142,6 +140,9 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 self.left()
             elif m == 3:
                 self.up()
+    def autoPlayer2(self):
+        print("hola")
+        pass
    
     
 if __name__ == "__main__":

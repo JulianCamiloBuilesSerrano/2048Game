@@ -3,4 +3,4 @@ this player is the basic method, that generate random numebers to select the mov
 '''
 import random
 def movimiento():
-    return  random.randint(0,2)
+    return  random.randint(0,3)

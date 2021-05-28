@@ -12,7 +12,7 @@ def writeDerecchaIzquierda(mat,movimineto):
     with open("derecha_izquierda.csv", "a+", newline='') as fd:
         writer =  csv.writer(fd,delimiter=";")
         writer.writerow(info)
-    print(info)
+    
 #end def
 def writeArribaAbajo(mat,movimineto):
     #up is 0
@@ -27,6 +27,5 @@ def writeArribaAbajo(mat,movimineto):
     with open("arriba_abajo.csv", "a+", newline='') as fd:
         writer =  csv.writer(fd,delimiter=";")
         writer.writerow(info)
-    print(info)
 #end def
 
