@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1998</width>
-    <height>1497</height>
+    <width>2000</width>
+    <height>1500</height>
    </rect>
   </property>
   <property name="font">
@@ -784,13 +784,51 @@ border-radius:9px;
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="player1">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>830</y>
+      <width>150</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#464646  ;
+color:azure;
+border-radius:9px;
+</string>
+    </property>
+    <property name="text">
+     <string>player auto 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="player2">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>830</y>
+      <width>150</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#464646  ;
+color:azure;
+border-radius:9px;
+</string>
+    </property>
+    <property name="text">
+     <string>player auto 2</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1998</width>
+     <width>2000</width>
      <height>24</height>
     </rect>
    </property>

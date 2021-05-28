@@ -1,4 +1,6 @@
 import random
+from copy import deepcopy
+import training
 class game2048:
 
     def __init__(self):
@@ -27,21 +29,22 @@ class game2048:
         for i in self.mat:
             for j in i:
                 print("\t",j,end = "")
-            #endfor
+            #end for
             print()
-        #endfor
+        #end for
     #end
     def status(self):
         stat = "lose"
         #Win
+
         for i in self.mat:
             for j in i:
                 if j == 2048:
                     stat = "win"
-                #endif
-            #endfor
-        #enfor
-        if stat != "win":
+                #end if
+            #end for
+        #en for
+        if stat != "win":            
             for i in self.mat:
                 for j in i:
                     if j == 0:
@@ -49,10 +52,56 @@ class game2048:
                     #endif
                 #endfor
             #endfor
-        #endif
+            #end if
+        #end if
+        if stat == "lose":
+            for i in range(0,4):
+                for j in range(0,4):
+                    if i < 3 and i > 0 and j < 3 and j >0:
+                        if self.mat[i][j] == self.mat[i+1][j] or self.mat[i][j] == self.mat[i-1][j] or self.mat[i][j] == self.mat[i][j-1] or self.mat[i][j] == self.mat[i][j+1]:
+                            stat = "continue" 
+                        #end if
+                    elif i > 0 and i < 3 and j == 0: #left side
+                        if self.mat[i][j] == self.mat[i+1][j] or self.mat[i][j] == self.mat[i-1][j]or self.mat[i][j] == self.mat[i][j+1]:
+                            stat = "continue"
+                        #end if
+                    elif i == 3  and j > 0 and j < 3:#down side
+                        if self.mat[i][j] == self.mat[i-1][j] or self.mat[i][j] == self.mat[i][j-1]or self.mat[i][j] == self.mat[i][j+1]:
+                            stat = "continue"
+                        #end if
+                    elif i > 0 and i < 3 and j == 3:#right side
+                        if self.mat[i][j] == self.mat[i+1][j] or self.mat[i][j] == self.mat[i-1][j]or self.mat[i][j] == self.mat[i][j-1]:
+                            stat = "continue"
+                        #end if
+                    elif i == 0  and j > 0 and j < 3:#up side
+                        if self.mat[i][j] == self.mat[i+1][j] or self.mat[i][j] == self.mat[i][j-1]or self.mat[i][j] == self.mat[i][j+1]:
+                            stat = "continue"
+                        #end if
+                    elif i == 0 and j == 0: #left up corner
+                        if  self.mat[i][j] == self.mat[i][j+1]  or self.mat[i+1][j] == self.mat[i][j]:
+                            stat = "continue"
+                        #end if 
+                    elif  i == 3 and j == 0:#left down corner
+                        if  self.mat[i][j] == self.mat[i][j+1] or self.mat[i][j] == self.mat[i-1][j]:
+                            stat = "continue"
+                        #end if 
+                    elif i == 3 and j == 3: #righ down corner
+                        if  self.mat[i][j] == self.mat[i][j-1] or self.mat[i][j] == self.mat[i-1][j]:
+                            stat = "continue"
+                        #end if 
+                    elif i == 0 and j == 3: #right up corner
+                        if  self.mat[i][j] == self.mat[i+1][j]or self.mat[i][j] == self.mat[i][j-1]:
+                            stat = "continue"
+
+
+
+                        #end if
+                #end for
+            #end for
         return stat
     #end
     def up(self): 
+        temp =  deepcopy(self.mat)
         #sum same numbers
         def subup():
             for j in range(4):
@@ -61,9 +110,9 @@ class game2048:
                         self.mat[i-1][j] = self.mat[i][j]
                         self.mat[i][j] = 0
                         i = i -1
-                    #endwhile
-                #endfor
-            #endfor
+                    #end while
+                #end for
+            #end for
         subup()
         
         for j in range(4):
@@ -73,14 +122,17 @@ class game2048:
                     self.points = self.points +  self.mat[i][j] +self.mat[i+1][j]
                     self.mat[i+1][j] = 0
                     subup()
-                #endif
-            #endfor
-        #endfor
-        self.random()
+                #end if
+            #end for
+        #end for
+        if(temp != self.mat):
+            training.writeArribaAbajo(self.mat,0)
+            self.random()
         self.Print()
     #end
 
     def down(self):
+        temp =  deepcopy(self.mat)
         def subdown():
             for j in range(4):
                 for i in [2,1,0]:
@@ -88,9 +140,9 @@ class game2048:
                         self.mat[i+1][j] = self.mat[i][j]
                         self.mat[i][j] = 0
                         i = i + 1
-                    #endwhile
-                #endfor
-            #endfor
+                    #endw hile
+                #end for
+            #end for
         #end
         subdown()
         for j in range(4):
@@ -100,14 +152,16 @@ class game2048:
                     self.points = self.points + self.mat[i][j] + self.mat[i-1][j]
                     self.mat[i-1][j] = 0
                     subdown()
-                #endif
-            #endfor
+                #end if
+            #end for
         #end for
-        self.random()
+        if(temp != self.mat):
+            training.writeArribaAbajo(self.mat,1)
+            self.random()
         self.Print()
     #end
     def left(self):
-        
+        temp =  deepcopy(self.mat)
         def subleft():
             for i in range(4):
                 for j in range(1,4):
@@ -115,9 +169,9 @@ class game2048:
                         self.mat[i][j-1] = self.mat[i][j]
                         self.mat[i][j] = 0
                         j = j -1
-                    #endwhile
-                #endfor
-            #endfor
+                    #end while
+                #end  for
+            #end for
         subleft()
         for i in range(4):
             for j in range(3):
@@ -129,11 +183,14 @@ class game2048:
                 #endif
             #endfor
         #endfor
-        self.random()
+        if(temp != self.mat):
+            training.writeDerecchaIzquierda(self.mat,1)
+            self.random()
         self.Print()
     #end
 
     def right(self):
+        temp =  deepcopy(self.mat)
         def subright():
             for i in range(4):
                 for j in [2,1,0]:
@@ -157,7 +214,9 @@ class game2048:
                 #endif
             #endfor
         #end for
-        self.random()
+        if(temp != self.mat):
+            training.writeDerecchaIzquierda(self.mat,0)
+            self.random()
         self.Print()
     #end
 

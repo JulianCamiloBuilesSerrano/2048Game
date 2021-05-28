@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1998, 1497)
+        MainWindow.resize(2000, 1500)
         font = QtGui.QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -320,9 +320,23 @@ class Ui_MainWindow(object):
         self.Estado.setMidLineWidth(0)
         self.Estado.setAlignment(QtCore.Qt.AlignCenter)
         self.Estado.setObjectName("Estado")
+        self.player1 = QtWidgets.QPushButton(self.centralwidget)
+        self.player1.setGeometry(QtCore.QRect(60, 830, 150, 100))
+        self.player1.setStyleSheet("background-color:#464646  ;\n"
+"color:azure;\n"
+"border-radius:9px;\n"
+"")
+        self.player1.setObjectName("player1")
+        self.player2 = QtWidgets.QPushButton(self.centralwidget)
+        self.player2.setGeometry(QtCore.QRect(260, 830, 150, 100))
+        self.player2.setStyleSheet("background-color:#464646  ;\n"
+"color:azure;\n"
+"border-radius:9px;\n"
+"")
+        self.player2.setObjectName("player2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1998, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 2000, 24))
         self.menubar.setObjectName("menubar")
         self.menu2048_game = QtWidgets.QMenu(self.menubar)
         self.menu2048_game.setObjectName("menu2048_game")
@@ -344,4 +358,16 @@ class Ui_MainWindow(object):
         self.buttonLeft.setText(_translate("MainWindow", "Left"))
         self.labelP.setText(_translate("MainWindow", "Points"))
         self.Estado.setText(_translate("MainWindow", "2048"))
+        self.player1.setText(_translate("MainWindow", "player auto 1"))
+        self.player2.setText(_translate("MainWindow", "player auto 2"))
         self.menu2048_game.setTitle(_translate("MainWindow", "2048 game"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -1,5 +1,8 @@
 from ventana import  *
 from game2048 import *
+from  player1 import movimiento
+from threading import *
+import time
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self, *args, **kwargs):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
@@ -8,6 +11,7 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.buttonDown.clicked.connect(self.down)
         self.buttonRight.clicked.connect(self.right)
         self.buttonLeft.clicked.connect(self.left)
+        self.player1.clicked.connect(self.autoPlayer1)
         self.game = game2048()
         self.setmat()
 
@@ -122,6 +126,23 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def left(self):
         self.game.left()
         self.setmat() 
+    def thread(self):
+        t = Thread(target = self.autoPlayer1)
+        t.start()
+    def autoPlayer1(self):
+        self.thread()
+        while self.game.status() == "continue":
+            time.sleep(1)
+            m =  movimiento()
+            if m == 0:
+                self.down()
+            elif m == 1:
+                self.right()
+            elif m == 2:
+                self.left()
+            elif m == 3:
+                self.up()
+   
     
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
