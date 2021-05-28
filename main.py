@@ -2,6 +2,7 @@ from ventana import  *
 from game2048 import *
 from  player1 import movimiento
 from threading import *
+from logistic_regression import *
 import time
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -140,11 +141,43 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 self.left()
             elif m == 3:
                 self.up()
-    def autoPlayer2(self):
-        print("hola")
-        pass
-   
+    def decition(self,W1,b1,W2,b2):
+        def ecuation( W, b, X ):
+            return ( 1.0 / ( 1.0 + numpy.exp( -( ( W @ X ) + b ) ) ) )[ 0 ]
+        X = []
+        for i in self.game.mat:
+            for j in i:
+                X.append(j)
+        print(X)
+
+        #calculate the values
+        v1 = ecuation(W1,b,X)
+        v2 = ecuation(W2,b2,X)
+        return v1,v2
     
+    def autoPlayer2(self):
+        #get the values for W and b for up and down
+        W1,b1 = logisticUpDown()
+        #get the values for W and b for right and left
+        W2,b2 = logisticRightLetf()
+        while self.game.status():
+            time.sleep(0.5)
+            v1,v2 = self.decition(W1,b1,W2,b2)
+            print(v1,v2)
+            
+            if v2 >= 0.5:
+                print("left")
+                self.left()
+            elif v2 < 0.5:
+                print("right")
+                self.right()
+            elif v1 >= 0.5:
+                print("down")
+                self.down()
+            else:
+                print("up")
+                self.up()
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = MainWindow()
