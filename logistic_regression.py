@@ -10,7 +10,7 @@ def logisticUpDown():
     X,Y = training.readArribaAbajo()
 
     cost = Cost.MaximumLikelihood( X, Y )
-    print(cost)
+    
     [ W, b, nIter ] = GradientDescent.Solve(
         cost,
         learning_rate = 1e-6,
@@ -23,7 +23,7 @@ def logisticRightLetf():
     X,Y = training.readDerecchaIzquierda()
 
     cost = Cost.MaximumLikelihood( X, Y )
-    print(cost)
+    
     [ W, b, nIter ] = GradientDescent.Solve(
         cost,
         learning_rate = 1e-6,
@@ -31,13 +31,19 @@ def logisticRightLetf():
         debug_step = 10
         )
     return [W,b]
-W,b = logisticUpDown()
-print( '**********************************************' )
-print( 'Gradient descent:', W, b )
-print( '**********************************************' )
-W,b = logisticRightLetf()
-print( '**********************************************' )
-print( 'Gradient descent:', W, b )
-print( '**********************************************' )
+    
+def logisticOption():
+    # Read the the csv whith the training information
+    X,Y = training.readOption()
+
+    cost = Cost.MaximumLikelihood( X, Y )
+    
+    [ W, b, nIter ] = GradientDescent.Solve(
+        cost,
+        learning_rate = 1e-6,
+        max_iterations = 500,
+        debug_step = 10
+        )
+    return [W,b]
 
 ## eof - $RCSfile$

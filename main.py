@@ -3,6 +3,7 @@ from game2048 import *
 from  player1 import movimiento
 from threading import *
 from logistic_regression import *
+import training
 import time
 class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
     def __init__(self, *args, **kwargs):
@@ -16,6 +17,8 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.player2.clicked.connect(self.autoPlayer2)
         self.game = game2048()
         self.setmat()
+        self.entranando = False
+        self.entrenando2 = False
 
     def setmat(self):
         if self.game.mat[0][0] != 0:
@@ -117,15 +120,35 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
         self.buttonRight.setEnabled(False)
         self.buttonLeft.setEnabled(False)
     def up(self):
+        if self.entranando:
+            training.writeArribaAbajo(self.game.mat,0)
+        if self.entrenando2:
+            c = self.trainingOption()
+            training.writeOpcion(c,0) 
         self.game.up()
         self.setmat()
     def down(self):
+        if self.entranando:
+            training.writeArribaAbajo(self.game.mat,1)
+        if self.entrenando2:
+            c = self.trainingOption()
+            training.writeOpcion(c,0) 
         self.game.down()
         self.setmat()    
     def right(self):
+        if self.entranando:
+            training.writeDerecchaIzquierda(self.game.mat,0)
+        if self.entrenando2:
+            c = self.trainingOption()
+            training.writeOpcion(c,1) 
         self.game.right()
         self.setmat() 
     def left(self):
+        if self.entranando:
+            training.writeDerecchaIzquierda(self.game.mat,1)
+        if self.entrenando2:
+            c = self.trainingOption()
+            training.writeOpcion(c,1) 
         self.game.left()
         self.setmat() 
     
@@ -141,42 +164,69 @@ class MainWindow(QtWidgets.QMainWindow,Ui_MainWindow):
                 self.left()
             elif m == 3:
                 self.up()
+    
+    def ecuation(self, W, b, X ):
+        return ( 1.0 / ( 1.0 + numpy.exp( -( ( W @ X ) + b ) ) ) )[ 0 ]
+
     def decition(self,W1,b1,W2,b2):
-        def ecuation( W, b, X ):
-            return ( 1.0 / ( 1.0 + numpy.exp( -( ( W @ X ) + b ) ) ) )[ 0 ]
+        
         X = []
         for i in self.game.mat:
             for j in i:
                 X.append(j)
-        print(X)
-
         #calculate the values
-        v1 = ecuation(W1,b,X)
-        v2 = ecuation(W2,b2,X)
+        v1 = self.ecuation(W1,b1,X)
+        v2 = self.ecuation(W2,b2,X)
         return v1,v2
-    
+    def trainingOption(self):
+        #get the values for W and b for up and down
+        W1,b1 = logisticUpDown()
+        #get the values for W and b for right and left
+        W2,b2 = logisticRightLetf()
+        return self.decition(W1,b1,W2,b2)
+   
     def autoPlayer2(self):
         #get the values for W and b for up and down
         W1,b1 = logisticUpDown()
         #get the values for W and b for right and left
         W2,b2 = logisticRightLetf()
-        while self.game.status():
+        Wc,bc = logisticOption()
+        temp = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+        flag = -1
+        while self.game.status()  == "continue":
             time.sleep(0.5)
             v1,v2 = self.decition(W1,b1,W2,b2)
-            print(v1,v2)
+            vc = self.ecuation(Wc,bc,[v1,v2])
+            print("vc ",vc, " v1 ",v1, ", v2 ",v2)
+            if vc >= 0.5 or ( vc < 0.5 and self.game.mat == temp and (flag == 3 or flag == 2)) :
+                if v2 >= 0.5 or (v2 < 0.5  and flag == 1 and self.game.mat == temp)  :
+                    flag = 0
+                    temp =  deepcopy(self.game.mat)
+                    print("left")
+                    self.left()
+                    print("flag ", flag, " iguales Matrices: ", self.game.mat == temp )
+                elif v2 < 0.5 or (v2 >= 0.5 and flag == 0 and self.game.mat ==  temp):
+                    flag = 1
+                    temp =  deepcopy(self.game.mat)
+                    print("right")
+                    self.right()
+                    print("flag ", flag, " iguales Matrices: ", self.game.mat == temp )
+            elif vc < 0.5 or ( vc >= 0.5 and self.game.mat == temp and (flag == 0 or flag == 1)):
+                if v1 >= 0.5 or (v1 < 0.5 and flag == 3 and self.game.mat == temp):
+                    flag = 2
+                    temp =  deepcopy(self.game.mat)
+                    print("down")
+                    self.down()
+                    print("flag ", flag, " iguales Matrices: ", self.game.mat == temp )
+                elif v1 < 0.5 or (v1 >= 0.5  and flag ==2 and self.game.mat == temp):
+                    flag = 3
+                    temp =  deepcopy(self.game.mat)
+                    print("up")
+                    self.up()
+                    print("flag ", flag, " iguales Matrices: ", self.game.mat == temp )
             
-            if v2 >= 0.5:
-                print("left")
-                self.left()
-            elif v2 < 0.5:
-                print("right")
-                self.right()
-            elif v1 >= 0.5:
-                print("down")
-                self.down()
-            else:
-                print("up")
-                self.up()
+            
+            
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

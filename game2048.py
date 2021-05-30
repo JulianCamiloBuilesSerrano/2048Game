@@ -126,7 +126,7 @@ class game2048:
             #end for
         #end for
         if(temp != self.mat):
-            training.writeArribaAbajo(self.mat,0)
+            #training.writeArribaAbajo(self.mat,0)
             self.random()
         self.Print()
     #end
@@ -156,7 +156,7 @@ class game2048:
             #end for
         #end for
         if(temp != self.mat):
-            training.writeArribaAbajo(self.mat,1)
+            #training.writeArribaAbajo(self.mat,1)
             self.random()
         self.Print()
     #end
@@ -184,7 +184,7 @@ class game2048:
             #endfor
         #endfor
         if(temp != self.mat):
-            training.writeDerecchaIzquierda(self.mat,1)
+            #training.writeDerecchaIzquierda(self.mat,1)
             self.random()
         self.Print()
     #end
@@ -215,24 +215,9 @@ class game2048:
             #endfor
         #end for
         if(temp != self.mat):
-            training.writeDerecchaIzquierda(self.mat,0)
+            #training.writeDerecchaIzquierda(self.mat,0)
             self.random()
         self.Print()
     #end
 
 #endClass
-'''
-
-game = game2048()
-while game.status() == "continue":
-    res = input("digite letra ")
-    if res == 'w':
-        game.up()
-    elif res == 's':
-        game.down()
-    elif res == 'd':
-        game.right()
-    elif res == 'a':
-        game.left()
-    print(game.points)
-    '''

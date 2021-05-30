@@ -29,7 +29,8 @@ def Solve(
         dJ = J - Jn
         
         if i % debug_step == 0:
-            print('Iteration =', i, ': dJ =', dJ)
+            #print('Iteration =', i, ': dJ =', dJ)
+            pass
         # end if
         J = Jn
         i += 1

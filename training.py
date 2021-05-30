@@ -12,7 +12,6 @@ def writeDerecchaIzquierda(mat,movimineto):
     with open("derecha_izquierda.csv", "a+", newline='') as fd:
         writer =  csv.writer(fd,delimiter=";")
         writer.writerow(info)
-    
 #end def
 def writeArribaAbajo(mat,movimineto):
     #up is 0
@@ -72,4 +71,39 @@ def readArribaAbajo():
        
     return X,Y
 #end def
-readArribaAbajo()
+
+def writeOpcion(mat,movimineto):
+    #poption up down 0
+    #option right left 1
+    info = []
+    for i in mat:
+        for j in i:
+            info.append(j)
+        #end for
+    #end for
+    info.append(movimineto)
+    with open("deicision.csv", "a+", newline='') as fd:
+        writer =  csv.writer(fd,delimiter=";")
+        writer.writerow(info)
+#end def
+def readOption():
+    X = []
+    Y = []
+    with open("deicision.csv", 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            r = row[0].split(";")
+            t_x = []
+            for i in range(3):
+                if i == 2:
+                    Y.append(float(r[i]))
+                else:
+                    t_x.append(float(r[i]))
+                #end if 
+            #end for
+        #end for
+    #end with
+            X.append(t_x)
+       
+    return X,Y
+#end def
